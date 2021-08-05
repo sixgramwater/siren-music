@@ -25,7 +25,7 @@
     // width: 4.748em;
     width: 28px;
     // transform: translateY(25%);
-    opacity: 0;
+    // opacity: 0;
     outline: 0;
     touch-action: none;
     user-select: none;
@@ -53,11 +53,12 @@
       // transform: translateY(-50%);
       // width: 3em;
       width: 18px;
-      height: 2px;
+      height: 1px;
       background-color: #d4d8dd;
       text-indent: 101%;
       white-space: nowrap;
       overflow: hidden;
+      // transform: scaleY(1.5);
       transition: width .3s ease-in-out,transform .3s ease-in-out;
       &:nth-child(1) {
         left: 0;
@@ -66,6 +67,9 @@
       }
       &:nth-child(2) {
         left: 0;
+        transform-origin: right center;
+        transform: translateY(calc(-50%));
+        // transform: translateY(0px)
       }
       &:nth-child(3) {
         right: 0;
