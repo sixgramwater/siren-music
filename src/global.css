@@ -1,0 +1,22 @@
+/* body {
+
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: #09090b;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  background-color: #09090b;
+  font-family: -apple-system,BlinkMacSystemFont,"Microsoft YaHei","Segoe UI","Roboto","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
+} */
+
+@font-face {
+  font-family: 'Geometos';
+  src: url('../public/static/Geometos\ 400.ttf');
+
+}
