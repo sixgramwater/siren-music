@@ -20,3 +20,8 @@
   src: url('../public/static/Geometos\ 400.ttf');
 
 }
+
+@font-face {
+  font-family: 'Source';
+  src: url('../public/static/SourceHanSerifCN-Heavy.woff');
+}

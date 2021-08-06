@@ -10,5 +10,12 @@ export default defineConfig({
   fastRefresh: {},
   dva: {
 
+  },
+  proxy: {
+    '/static': {
+      target: 'http://localhost:3002',
+      pathRewrite: {'^/static': ''},
+      changeOrigin: true,
+    }
   }
 });
