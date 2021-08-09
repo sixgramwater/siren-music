@@ -12,10 +12,10 @@ export default defineConfig({
 
   },
   proxy: {
-    '/static': {
-      target: 'http://localhost:3002',
-      pathRewrite: {'^/static': ''},
-      changeOrigin: true,
-    }
+    // '/static': {
+    //   target: 'http://localhost:3002',
+    //   pathRewrite: {'^/static': ''},
+    //   changeOrigin: true,
+    // }
   }
 });
