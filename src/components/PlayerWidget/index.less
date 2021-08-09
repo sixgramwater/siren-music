@@ -92,3 +92,64 @@
   }
 }
 
+
+.playList {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transition: visibility .5s ease;
+  // visibility: hidden;
+
+  .mask {
+    width: 100%;
+    height: 100%;
+
+  }
+
+  .layer {
+    width: 70%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-bottom: 36px; //6em
+    // transform: translateX(100%)
+    transition: transform .5s ease;
+    flex-direction: column;
+    display: flex;
+    color: #e3e4e8;
+    background: rgba(0,0,0,.3);
+    box-sizing: border-box;
+    backdrop-filter: blur(15px);
+
+    .layerHeader {
+      height: 30px; //5em
+      padding-left: 18px; //3em
+      margin-top: 12px; // 2em
+      margin-bottom: 6px; // 1em
+      display: flex;
+      align-items: flex-end;
+
+      .returnButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.4rem;
+        height: .72rem;
+      }
+    }
+
+    .layerBody {
+      flex: auto;
+      height: 100%;
+      min-height: 0;
+    }
+  }
+}
+
+.scrollView {
+  position: relative;
+
+}
