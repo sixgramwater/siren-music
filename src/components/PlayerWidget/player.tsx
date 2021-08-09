@@ -2,16 +2,27 @@ import React from 'react';
 import { useSelector, useDispatch } from 'umi';
 // import { Image } from ''
 import styles from './index.less';
-import { FaPlay, FaListUl } from 'react-icons/fa'
+import { FaPlay, FaListUl, FaPause } from 'react-icons/fa';
+import cx from 'classnames';
 
-
-export interface PlayerProps {
-
-}
+export interface PlayerProps {}
 
 const Player: React.FC<PlayerProps> = (props) => {
   const coverImg = require('../../../public/static/musicCover.jpg');
-  return(
+  const playListOpen = useSelector((state: any) => state.app.playListOpen);
+  let state = 'paused';
+  const dispatch = useDispatch();
+  const handleOpenPlayList = () => {
+    // console.log('click')
+    dispatch({
+      type: 'app/togglePlayListOpen',
+      payload: !playListOpen,
+    });
+  };
+  const listIconActiveClass = cx(styles.iconWrapper, {
+    [styles.active]: playListOpen,
+  });
+  return (
     <div className={styles.player}>
       <div className={styles.info}>
         <div className={styles.picWrapper}>
@@ -19,22 +30,20 @@ const Player: React.FC<PlayerProps> = (props) => {
         </div>
         <div className={styles.musicTitle}>
           <div className={styles.overflowText}>
-            <span className={styles.content}>
-              ACROSS THE WIND
-            </span>
+            <span className={styles.content}>ACROSS THE WIND</span>
           </div>
         </div>
       </div>
       <div className={styles.control}>
         <div className={styles.iconWrapper}>
-          <FaPlay/>
+          {state === 'playing' ? <FaPlay /> : <FaPause />}
         </div>
-        <div className={styles.iconWrapper}>
-          <FaListUl/>
+        <div className={listIconActiveClass} onClick={handleOpenPlayList}>
+          <FaListUl />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Player;

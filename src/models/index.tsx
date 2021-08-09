@@ -1,12 +1,11 @@
 import { Effect, Reducer, Subscription } from 'umi';
 import { isMobile2 } from '../utils/utils';
 
-
 const routes: routeItem[] = [
   {
     path: '/',
     name: 'HOME',
-    name_cn: '首页'
+    name_cn: '首页',
   },
   {
     path: '/about',
@@ -16,44 +15,45 @@ const routes: routeItem[] = [
   {
     path: '/music',
     name: 'MUSIC',
-    name_cn: '音乐'
+    name_cn: '音乐',
   },
   {
     path: '/contact',
     name: 'CONTACT',
-    name_cn: '联系'
-  }
-]
-
+    name_cn: '联系',
+  },
+];
 
 export type routeItem = {
   path: string;
   name: string;
   name_cn: string;
-}
+};
 export interface AppModelState {
   isMobile: boolean;
   routes?: routeItem[];
   curRouteIndex?: number;
-  siderOpen?:boolean;
+  siderOpen?: boolean;
+  playListOpen?: boolean;
+  showSearchResult?: boolean;
 }
 
 export interface AppModelType {
-  namespace: 'app',
-  state: AppModelState,
+  namespace: 'app';
+  state: AppModelState;
   reducers: {
-    setMobile: Reducer,
-    routeForward?: Reducer,
-    routeBackward?: Reducer,
-    setRoute?: Reducer,
-    toggleSiderOpen?: Reducer,
-  },
-  effects: {
-
-  },
+    setMobile: Reducer;
+    routeForward?: Reducer;
+    routeBackward?: Reducer;
+    setRoute?: Reducer;
+    toggleSiderOpen?: Reducer;
+    togglePlayListOpen?: Reducer;
+    toggleShowSearchResult?: Reducer;
+  };
+  effects: {};
   subscription: {
-    setup: Subscription
-  }
+    setup: Subscription;
+  };
 }
 
 const AppModel: AppModelType = {
@@ -63,57 +63,70 @@ const AppModel: AppModelType = {
     routes: routes,
     curRouteIndex: 0,
     siderOpen: false,
+    playListOpen: false,
   },
   reducers: {
-    setMobile: (state: AppModelState, {payload}) => {
+    setMobile: (state: AppModelState, { payload }) => {
       return {
         ...state,
         isMobile: payload,
-      }
+      };
     },
     routeForward: (state: AppModelState) => {
-      if( state.curRouteIndex! >= state.routes!.length-1) {
+      if (state.curRouteIndex! >= state.routes!.length - 1) {
         return state;
       } else {
         return {
           ...state,
-          curRouteIndex: state.curRouteIndex!+1
-        }
+          curRouteIndex: state.curRouteIndex! + 1,
+        };
       }
     },
     routeBackward: (state: AppModelState): AppModelState => {
-      if( state.curRouteIndex! <= 0) {
+      if (state.curRouteIndex! <= 0) {
         return state;
       } else {
         return {
           ...state,
-          curRouteIndex: state.curRouteIndex!-1
-        }
+          curRouteIndex: state.curRouteIndex! - 1,
+        };
       }
     },
     setRoute: (state: AppModelState, { payload }): AppModelState => {
-      const index = state.routes!.findIndex(route=>route.path === payload)
-      return (index === -1)
-      ? state
-      : {
-        ...state,
-        curRouteIndex: index
-      }
+      const index = state.routes!.findIndex((route) => route.path === payload);
+      return index === -1
+        ? state
+        : {
+            ...state,
+            curRouteIndex: index,
+          };
     },
     toggleSiderOpen: (state: AppModelState, { payload }): AppModelState => {
       return {
         ...state,
-        siderOpen: payload
-      }
-    }
+        siderOpen: payload,
+      };
+    },
+    togglePlayListOpen: (state: AppModelState, { payload }): AppModelState => {
+      return {
+        ...state,
+        playListOpen: payload,
+      };
+    },
+    toggleShowSearchResult: (
+      state: AppModelState,
+      { payload },
+    ): AppModelState => {
+      return {
+        ...state,
+        showSearchResult: payload,
+      };
+    },
   },
-  effects: {
-
-  },
+  effects: {},
   subscription: {
-    setup({dispatch}) {
-    }
-  }
-}
+    setup({ dispatch }) {},
+  },
+};
 
 export default AppModel;

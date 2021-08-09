@@ -1,0 +1,34 @@
+// ways to draw a return arrow using pesudo class ::after::before
+
+.returnButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 0.72rem;
+  // background-color: aquamarine;
+  .viewPort {
+    width: 80%;
+    height: 50%;
+    overflow: hidden;
+  }
+  .icon {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    height: 100%;
+    &::after,
+    &::before {
+      content: '';
+      width: 100%;
+      height: 100%;
+      flex: none; // flex:none代表不会因为空间不够而缩小，会按照本来的大小排列，哪怕超过边界
+      display: block;
+      border-left: 3px solid #ccc; // transform以后3px会变细
+      border-bottom: 2px solid #ccc;
+      transform: skewX(-45deg) scale(0.8); // 再缩小一些，因为会有部分溢出
+      box-sizing: border-box;
+      transition: all 0.5s ease;
+    }
+  }
+}

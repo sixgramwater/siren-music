@@ -5,10 +5,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
-
+  pointer-events: none; // !!!!
+  & > * {
+    pointer-events: all;
+  }
   .player {
-    animation: enter .5s ease 1 forwards;
+    z-index: 20;
+    animation: enter 0.5s ease 1 forwards;
     width: 100%;
     height: 36px; // 6em
     background: #222;
@@ -39,7 +42,7 @@
 
       .musicTitle {
         font-size: 12px; // 2em
-        font-family: "Geometos","Sans-Bold","Source";
+        font-family: 'Geometos', 'Sans-Bold', 'Source';
         height: 100%;
         width: 60vw;
         box-sizing: border-box;
@@ -70,16 +73,19 @@
         height: 100%;
         width: 36px;
         justify-content: center;
-        transition: color .3s ease;
+        transition: color 0.3s ease;
+        pointer-events: all;
+        &:nth-child(2) {
+          transform: scale(1.15);
+        }
         &.active {
           color: #a0edff;
-          transform: scale(1.2);
+          transform: scale(1.3);
         }
       }
     }
   }
 }
-
 
 @keyframes enter {
   0% {
@@ -87,11 +93,10 @@
     transform: translateY(120%);
   }
   100% {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-
 
 .playList {
   position: fixed;
@@ -99,13 +104,19 @@
   top: 0;
   width: 100%;
   height: 100%;
-  transition: visibility .5s ease;
-  // visibility: hidden;
+  transition: visibility 0.5s ease;
+  visibility: hidden;
+
+  &.visible {
+    visibility: visible;
+    .layer {
+      transform: translateX(0);
+    }
+  }
 
   .mask {
     width: 100%;
     height: 100%;
-
   }
 
   .layer {
@@ -115,12 +126,12 @@
     top: 0;
     right: 0;
     padding-bottom: 36px; //6em
-    // transform: translateX(100%)
-    transition: transform .5s ease;
+    transform: translateX(100%);
+    transition: transform 0.5s ease;
     flex-direction: column;
     display: flex;
     color: #e3e4e8;
-    background: rgba(0,0,0,.3);
+    background: rgba(0, 0, 0, 0.3);
     box-sizing: border-box;
     backdrop-filter: blur(15px);
 
@@ -131,13 +142,12 @@
       margin-bottom: 6px; // 1em
       display: flex;
       align-items: flex-end;
+      transform: scaleX(-1);
 
       .returnButton {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         width: 2.4rem;
-        height: .72rem;
+        height: 0.72rem;
+        // transform: scaleX(-1);
       }
     }
 
@@ -151,5 +161,4 @@
 
 .scrollView {
   position: relative;
-
 }
