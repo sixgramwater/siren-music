@@ -114,8 +114,11 @@
     height: 100%;
     padding: 0.1992rem 0.51792rem;
     border: none;
-    font-size: 0.3984rem;
-    letter-spacing: 0.01992rem;
+    // font-size: 0.3984rem;
+    font-size: 10px;
+    // font-size: 1.66em;
+    // letter-spacing: 3px;
+    // letter-spacing: 0.01992rem;
     line-height: 1.2;
     color: #a2a6ae;
     font-family: 'NovecentoSansWide-Normal';
@@ -135,12 +138,14 @@
     // padding: .17rem .51792rem;
     border: none;
     background: transparent;
-    font-family: 'NovecentoSansWide-Normal', 'SourceHanSansCN-Regular';
+    font-family: 'Geometos', 'SourceHanSansCN-Regular';
+    transform: scale(0.9);
     // font-size: .3984rem;
     letter-spacing: 0.01992rem;
     line-height: 1.2;
     text-align: left;
     text-align: initial;
+    font-size: 10px;
     // color: #56565d;
     pointer-events: none;
     user-select: none;
@@ -183,10 +188,12 @@
   background-size: cover;
   background-position: top;
   opacity: 0;
+  visibility: hidden;
   transition: opacity 0.3s ease;
 
   &.show {
     opacity: 1;
+    visibility: visible;
   }
 
   .albumArea {

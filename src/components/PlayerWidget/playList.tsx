@@ -2,10 +2,14 @@ import styles from './index.less';
 import ReturnButton from '../ReturnButton';
 import { useSelector, useDispatch } from 'umi';
 import cx from 'classnames';
+import ScrollView from '@/components/ScrollView';
+import { songType } from '@/models/music';
+import ListItem from './playListItem';
 // import { AppModelState } from '@/models';
 
 const PlayList = () => {
   const playListOpen = useSelector((state: any) => state.app.playListOpen);
+  const songs: songType[] = useSelector((state: any) => state.music.songs);
   const dispatch = useDispatch();
   const handleClickReturn = () => {};
   const handleClickMask = () => {
@@ -28,7 +32,18 @@ const PlayList = () => {
           />
         </div>
         <div className={styles.layerBody}>
-          <div className={styles.scrollView}></div>
+          <ScrollView>
+            {songs.map((song: songType, index) => (
+              <ListItem
+                key={song.cid}
+                index={index + 1}
+                artist={song.artists[0]}
+                title={song.name}
+                cid={song.cid}
+              />
+            ))}
+          </ScrollView>
+          {/* <div className={styles.scrollView}></div> */}
         </div>
       </div>
     </div>

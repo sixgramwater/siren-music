@@ -36,6 +36,8 @@ export interface AppModelState {
   siderOpen?: boolean;
   playListOpen?: boolean;
   showSearchResult?: boolean;
+  showMusicPlay?: boolean;
+  showVolumePanel?: boolean;
 }
 
 export interface AppModelType {
@@ -49,6 +51,8 @@ export interface AppModelType {
     toggleSiderOpen?: Reducer;
     togglePlayListOpen?: Reducer;
     toggleShowSearchResult?: Reducer;
+    toggleShowMusicPlay?: Reducer;
+    toggleShowVolumePanel: Reducer;
   };
   effects: {};
   subscription: {
@@ -64,6 +68,9 @@ const AppModel: AppModelType = {
     curRouteIndex: 0,
     siderOpen: false,
     playListOpen: false,
+    showSearchResult: false,
+    showMusicPlay: false,
+    showVolumePanel: false,
   },
   reducers: {
     setMobile: (state: AppModelState, { payload }) => {
@@ -120,6 +127,21 @@ const AppModel: AppModelType = {
       return {
         ...state,
         showSearchResult: payload,
+      };
+    },
+    toggleShowMusicPlay: (state: AppModelState, { payload }): AppModelState => {
+      return {
+        ...state,
+        showMusicPlay: payload,
+      };
+    },
+    toggleShowVolumePanel: (
+      state: AppModelState,
+      { payload },
+    ): AppModelState => {
+      return {
+        ...state,
+        showVolumePanel: payload,
       };
     },
   },

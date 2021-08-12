@@ -8,14 +8,16 @@ export default defineConfig({
   //   { path: '/', component: '@/pages/index' },
   // ],
   fastRefresh: {},
-  dva: {
-
-  },
+  dva: {},
   proxy: {
     // '/static': {
     //   target: 'http://localhost:3002',
     //   pathRewrite: {'^/static': ''},
     //   changeOrigin: true,
     // }
-  }
+    '/api': {
+      target: 'https://monster-siren.hypergryph.com',
+      changeOrigin: true,
+    },
+  },
 });

@@ -25,3 +25,13 @@
   font-family: 'Source';
   src: url('../public/static/SourceHanSerifCN-Heavy.woff');
 }
+
+@font-face {
+  font-family: 'Bender';
+  src: url('../public/static/Bender.woff');
+}
+
+@font-face {
+  font-family: 'Sans-regular';
+  src: url('../public/static/OpenSans-Regular.woff');
+}

@@ -1,0 +1,56 @@
+.albumItem {
+  display: flex;
+  align-items: center;
+  animation: albumItemEntering 1s ease 0.5s 1 forwards;
+  margin-left: 19px; // 3.25em;
+  opacity: 0;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  // name, duration, timing-function delay animation-iteration-count anmation-direction
+
+  &:first-child {
+    margin-top: 14.4px // 2.4em
+;
+  }
+  &:not(:last-child) {
+    margin-bottom: 10px; // 1.666em
+  }
+  .cover {
+    width: 75px;
+    height: 75px;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  .info {
+    margin-left: 15px;
+    .name {
+      font-family: 'Geometos', 'Source';
+      font-size: 14px;
+      color: #fff;
+    }
+    .singerList {
+      margin-top: 1.8px;
+      font-family: 'Sans-Regular', 'Source';
+      font-size: 9px;
+      color: #c6c9ce;
+    }
+  }
+}
+
+@keyframes albumItemEntering {
+  0% {
+    opacity: 0;
+    transform: translateX(1.8rem) translateZ(1px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(1.8rem) translateZ(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateZ(1px);
+  }
+}
