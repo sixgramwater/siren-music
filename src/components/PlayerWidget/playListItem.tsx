@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './index.less';
 import cx from 'classnames';
+import { useDispatch, useSelector } from 'umi';
 
 export interface ListItemProps {
   active?: boolean;
@@ -8,15 +9,16 @@ export interface ListItemProps {
   artist: string;
   index: number;
   cid: string;
+  onClick: () => void;
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
-  const { active = false, title, artist, index, cid } = props;
+  const { active = false, title, artist, index, cid, onClick } = props;
   const activeClass = cx(styles.listItem, {
     [styles.active]: active,
   });
   return (
-    <div className={activeClass}>
+    <div className={activeClass} onClick={onClick}>
       <div className={styles.badge}>{index}</div>
       <div className={styles.content}>
         <div className={styles.title}>

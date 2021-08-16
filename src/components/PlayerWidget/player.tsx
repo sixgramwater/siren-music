@@ -5,10 +5,20 @@ import styles from './index.less';
 import { FaPlay, FaListUl, FaPause } from 'react-icons/fa';
 import cx from 'classnames';
 import { useAudio } from '@/utils/playAudio';
+import { musicDetailProps, albumType } from '@/models/music';
 
 export interface PlayerProps {}
 
 const Player: React.FC<PlayerProps> = (props) => {
+  const curMusic: musicDetailProps = useSelector(
+    (state: any) => state.music.curMusic,
+  );
+  const albums: albumType[] = useSelector((state: any) => state.music.albums);
+  const curAlbumIndex = albums.findIndex((album) => {
+    return curMusic.albumCid === album.cid;
+  });
+  const curAlbum = albums[curAlbumIndex];
+  // const albums: albumType = useSelector((state: any)=>state.music.albums)
   const coverImg = require('../../../public/static/musicCover.jpg');
   const playingState = useSelector((state: any) => state.music.playingState);
   const playListOpen = useSelector((state: any) => state.app.playListOpen);
@@ -49,11 +59,11 @@ const Player: React.FC<PlayerProps> = (props) => {
     <div className={styles.player}>
       <div className={styles.info} onClick={handleShowMusicPlay}>
         <div className={styles.picWrapper}>
-          <img src={coverImg} className={styles.coverPic}></img>
+          <img src={curAlbum.coverUrl} className={styles.coverPic}></img>
         </div>
         <div className={styles.musicTitle}>
           <div className={styles.overflowText}>
-            <span className={styles.content}>ACROSS THE WIND</span>
+            <span className={styles.content}>{curMusic.name}</span>
           </div>
         </div>
       </div>

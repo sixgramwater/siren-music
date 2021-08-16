@@ -170,6 +170,23 @@
   margin-bottom: 18px;
   margin-right: 36px;
   display: flex;
+  position: relative;
+
+  &.active {
+    color: #a0edff;
+    &::after {
+      content: '';
+      position: absolute;
+      // right: 0;
+      right: -36px; // 越过margin-right
+      width: 3.5px;
+      height: 100%;
+      display: block;
+      background: #a0edff;
+      filter: drop-shadow(#a0edff 0 0 10px);
+    }
+  }
+
   .badge {
     display: flex;
     flex: none; // 永远不换行
@@ -194,7 +211,7 @@
       font-size: 12px; //2em
       font-family: 'Geometos', 'Source';
       transition: color 0.3s ease;
-      color: #e3e4e8;
+      // color: #e3e4e8;
       .overflowText {
         white-space: nowrap;
         width: 100%;
@@ -211,7 +228,7 @@
 
     .artist {
       font-size: 11px; //1.8em
-      color: #c7c9d1;
+      // color: #c7c9d1;
       font-family: 'Sans-Regular', 'Source';
       transition: color 0.3 ease;
     }

@@ -62,7 +62,7 @@ export const getCurTime = () => {
 
 export const load = async (url: string) => {
   // if(loaded) return;
-  console.log('load');
+  console.log('start load');
   try {
     buffer = (await getBuffer(url)) as AudioBuffer;
   } catch (e) {
@@ -86,20 +86,51 @@ export const reload = async (url: string) => {
 };
 
 export const play = () => {
-  if (!loaded) return;
-  sourceNode = audioContext.createBufferSource();
-  sourceNode.buffer = buffer;
-  gainNode = audioContext.createGain();
-  gainNode.gain.value = volume;
-  sourceNode.connect(gainNode).connect(audioContext.destination);
-  if (pausedAt) {
-    startedAt = Date.now() - pausedAt;
-    sourceNode.start(0, pausedAt / 1000);
-  } else {
-    startedAt = Date.now();
-    sourceNode.start(0);
-  }
-  paused = false;
+  // if (!loaded) {
+  //   console.log('play: not loaded');
+  //   return;
+  // }else {
+  //   console.log('play: loaded')
+  // }
+  // sourceNode = audioContext.createBufferSource();
+  // sourceNode.buffer = buffer;
+  // gainNode = audioContext.createGain();
+  // gainNode.gain.value = volume;
+  // sourceNode.connect(gainNode).connect(audioContext.destination);
+  // if (pausedAt) {
+  //   startedAt = Date.now() - pausedAt;
+  //   sourceNode.start(0, pausedAt / 1000);
+  // } else {
+  //   startedAt = Date.now();
+  //   console.log('first start')
+  //   sourceNode.start(0);
+  // }
+  // paused = false;
+  // console.log('start playing')
+  return new Promise((resolve) => {
+    if (!loaded) {
+      console.log('play: not loaded');
+      return;
+    } else {
+      console.log('play: loaded');
+    }
+    sourceNode = audioContext.createBufferSource();
+    sourceNode.buffer = buffer;
+    gainNode = audioContext.createGain();
+    gainNode.gain.value = volume;
+    sourceNode.connect(gainNode).connect(audioContext.destination);
+    if (pausedAt) {
+      startedAt = Date.now() - pausedAt;
+      sourceNode.start(0, pausedAt / 1000);
+    } else {
+      startedAt = Date.now();
+      console.log('first start');
+      sourceNode.start(0);
+    }
+    paused = false;
+    console.log('start playing');
+    resolve('load success');
+  });
 };
 
 export const playFrom = (from: number) => {
@@ -134,7 +165,7 @@ export const setPlayingVolume = (value: number) => {
   }
 };
 
-export const pause = () => {
+export const pause = async () => {
   if (!loaded) return;
   sourceNode.stop(0);
   pausedAt = Date.now() - startedAt!;

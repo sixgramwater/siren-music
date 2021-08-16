@@ -33,6 +33,18 @@ const ScrollView: React.FC<ScrollViewProps> = (props) => {
         width: '100%',
         height: '100%',
       }}
+      trackYProps={{
+        renderer: (props) => {
+          const { elementRef, ...restProps } = props;
+          return (
+            <div
+              {...restProps}
+              ref={elementRef}
+              style={{ visibility: 'hidden' }}
+            ></div>
+          );
+        },
+      }}
       renderer={(props) => {
         const { elementRef, ...restProps } = props;
         return (

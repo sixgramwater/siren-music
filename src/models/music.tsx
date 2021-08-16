@@ -11,6 +11,7 @@ import {
   getCurTime,
   setInitialVolume,
   setPlayingVolume,
+  requestAlbumDetail,
 } from '../services/music';
 
 export interface songType {
@@ -90,9 +91,12 @@ export interface MusicModelProps {
   };
   effects: {
     fetchMusicDetail: Effect;
+    fetchAlbumDetail: Effect;
+    initFetch: Effect;
     playSongs: Effect;
     stopSongs: Effect;
     loadSongs: Effect;
+    loadAndPlay: Effect;
     playSongsFrom: Effect;
     setPlayingVolume: Effect;
     onEnd: Effect;
@@ -1116,8 +1120,21 @@ const MusicModel: MusicModelProps = {
     },
   },
   effects: {
+    *initFetch({ payload }, { call, put, select }) {
+      //
+      const curMusic: musicDetailProps = yield select(
+        (state: any) => state.music.curMusic,
+      );
+    },
+    *fetchAlbumDetail({ payload }, { call, put, select }) {
+      const data = yield call(requestAlbumDetail, payload);
+      yield put({
+        type: 'music/setCurAlbum',
+        payload: data,
+      });
+    },
     *fetchMusicDetail({ payload }, { call, put, select }) {
-      const data = yield call(requestMusicDetail);
+      const data = yield call(requestMusicDetail, payload);
       yield put({
         type: 'music/setCurMusic',
         payload: data,
@@ -1142,6 +1159,7 @@ const MusicModel: MusicModelProps = {
       // console.log(curMusic);
       // yield call(load, curMusic.sourceUrl);
       const loaded = yield call(isLoaded);
+      console.log('loaded: ', loaded);
       if (!loaded) return;
       yield call(play);
       yield put({
@@ -1228,7 +1246,15 @@ const MusicModel: MusicModelProps = {
         const playingState = select((state: any) => state.music.playingState);
         if (playingState === 'playing') {
           yield call(pause);
+          yield put({
+            type: 'setPlayingState',
+            payload: 'stop',
+          });
         }
+        // yield put({
+        //   type: 'setPlayingState',
+        //   payload: 'stop',
+        // })
         const cid = payload;
         const musicDetail: musicDetailProps = yield call(
           requestMusicDetail,
@@ -1262,6 +1288,27 @@ const MusicModel: MusicModelProps = {
       //   payload: musicDetail,
       // });
       // yield call(load, musicDetail.sourceUrl);
+    },
+    *loadAndPlay({ payload }, { put, select, call }) {
+      yield put({
+        type: 'stopSongs',
+      });
+      yield put({
+        type: 'loadSongs',
+        payload,
+      });
+      // const delay = (ms: number) => new Promise((resolve)=>setTimeout(resolve, ms));
+      // delay(1000);
+      // setTimeout(()=>{
+      //   put({
+      //     type: 'playSongs'
+      //   })
+      //   console.log('play')
+      // }, 1000)
+      // yield call(play);
+      yield put({
+        type: 'playSongs',
+      });
     },
     *setPlayingVolume({ payload }, { put, select, call }) {
       yield call(setPlayingVolume, payload);

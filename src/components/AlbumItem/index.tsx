@@ -1,5 +1,8 @@
 import cx from 'classnames';
 import styles from './index.less';
+import Image from '@/components/Image';
+import { Suspense } from 'react';
+import LazyLoad from 'react-lazyload';
 
 export interface AlbumItemProps {
   cover: string;
@@ -19,7 +22,16 @@ const AlbumItem: React.FC<AlbumItemProps> = (props) => {
       }}
     >
       <div className={styles.cover}>
-        <img src={cover} alt={name} referrerPolicy="no-referrer" />
+        {/* <LazyLoad height={75} once> */}
+        <img src={cover} referrerPolicy="no-referrer" />
+        {/* </LazyLoad> */}
+        {/* <Suspense fallback={
+          <img src="../../../public/static/musicCover.jpg"></img>
+        }>
+          <Image imgSrc={cover}/>
+        </Suspense> */}
+
+        {/* <img src={cover} alt={name} referrerPolicy="no-referrer" /> */}
       </div>
       <div className={styles.info}>
         <div className={styles.name}>{name}</div>
