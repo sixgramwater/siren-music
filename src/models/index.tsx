@@ -1,3 +1,4 @@
+import { triggerTimeout } from '@/services/toast';
 import { Effect, Reducer, Subscription } from 'umi';
 import { isMobile2 } from '../utils/utils';
 
@@ -38,6 +39,8 @@ export interface AppModelState {
   showSearchResult?: boolean;
   showMusicPlay?: boolean;
   showVolumePanel?: boolean;
+  showToast?: boolean;
+  toastContent: string;
 }
 
 export interface AppModelType {
@@ -53,8 +56,12 @@ export interface AppModelType {
     toggleShowSearchResult?: Reducer;
     toggleShowMusicPlay?: Reducer;
     toggleShowVolumePanel: Reducer;
+    toggleShowToast: Reducer;
+    setToastContent: Reducer;
   };
-  effects: {};
+  effects: {
+    requestToast: Effect;
+  };
   subscription: {
     setup: Subscription;
   };
@@ -71,6 +78,8 @@ const AppModel: AppModelType = {
     showSearchResult: false,
     showMusicPlay: false,
     showVolumePanel: false,
+    showToast: false,
+    toastContent: '',
   },
   reducers: {
     setMobile: (state: AppModelState, { payload }) => {
@@ -144,8 +153,40 @@ const AppModel: AppModelType = {
         showVolumePanel: payload,
       };
     },
+    toggleShowToast: (state: AppModelState, { payload }): AppModelState => {
+      return {
+        ...state,
+        showToast: payload
+      }
+    },
+    setToastContent: (state: AppModelState, { payload }): AppModelState => {
+      return {
+        ...state,
+        toastContent: payload,
+      }
+    }
   },
-  effects: {},
+  effects: {
+    *requestToast({payload}, {select, call, put}) {
+      // yield put({
+      //   type: 'toggleShowToast',
+      //   payload: true,
+      // });
+      yield put({
+        type: 'setToastContent',
+        payload
+      })
+      // const delay = (ms: number) => new Promise(resolve=>setTimeout(resolve, ms));
+      // const callback = () => {
+      //   put({
+      //     type: 'toggleShowToast',
+      //     payload: false
+      //   })
+      // }
+
+      // yield call(triggerTimeout(callback));
+    }
+  },
   subscription: {
     setup({ dispatch }) {},
   },

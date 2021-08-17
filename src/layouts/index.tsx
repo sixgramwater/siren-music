@@ -2,6 +2,7 @@ import { IRouteComponentProps } from 'umi';
 import styles from './layouts.less';
 import Header from '../components/Header';
 import PlayerWidget from '../components/PlayerWidget';
+import Toast from '@/components/Toast';
 import { Helmet } from 'umi';
 
 export default function Layout({
@@ -19,6 +20,7 @@ export default function Layout({
       <Header />
       {children}
       <PlayerWidget />
+      <Toast/>
     </div>
   );
 }

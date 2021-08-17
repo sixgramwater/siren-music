@@ -69,6 +69,10 @@ const PageMusicPlay = () => {
   };
   const handleVolumeSliderChange = (value: number) => {
     setVolumeSliderValue(value);
+    dispatch({
+      type: 'app/requestToast',
+      payload: `音量: ${Math.round(value*100)}`
+    })
   };
 
   const handleChangeCurTime = (value: number) => {
@@ -119,7 +123,11 @@ const PageMusicPlay = () => {
             <FlashText text={curMusic.artists[0]} />
           </div>
         </div>
-        <div className={styles.playing}></div>
+        <div className={styles.playing}>
+          <div className={styles.visualizerWrapper}>
+            <canvas className="visualizer" width="300px" height="50px"></canvas>
+          </div>
+        </div>
       </div>
       <div className={styles.pageFooter}>
         <div className={styles.progress}>
