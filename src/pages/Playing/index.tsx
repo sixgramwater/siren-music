@@ -27,6 +27,7 @@ const PageMusicPlay = () => {
   const duration: number = useSelector((state: any) => state.music.duration);
   const [sliderValue, setSliderValue] = useState(0);
   const [volumeSliderValue, setVolumeSliderValue] = useState(curVolume);
+  // const playListOpen = useSelector((state: any) => state.app.playListOpen);
   useEffect(() => {
     // dispatch({
     //   type: 'music/setVolume',
@@ -83,6 +84,13 @@ const PageMusicPlay = () => {
     });
   };
 
+  const handleClickListBtn = () => {
+    // dispatch({
+    //   type: 'app/togglePlayListOpen',
+    //   payload: !playListOpen,
+    // });
+  }
+
   const handleTogglePlay = () => {
     dispatch({
       type: 'music/playSongs',
@@ -94,6 +102,14 @@ const PageMusicPlay = () => {
       type: 'music/stopSongs',
     });
   };
+
+  const handleToggleNext = () => {
+
+  }
+
+  const handleToggleLast = () => {
+
+  }
   const pageMusicPlayClass = cx(styles.pageMusicPlay, {
     [styles.show]: showMusicPlay,
   });
@@ -107,7 +123,7 @@ const PageMusicPlay = () => {
     <div className={pageMusicPlayClass}>
       <div className={styles.pageHeader}>
         <div className={styles.closeBtn} onClick={handleClosePage}></div>
-        <div className={styles.listBtn}>
+        <div className={styles.listBtn} onClick={handleClickListBtn}>
           <span className={styles.listText}>PLAYLIST</span>
           <div className={styles.iconWrapper}>
             <BiAlbum className={styles.icon} />

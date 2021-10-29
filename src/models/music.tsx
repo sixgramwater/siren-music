@@ -73,6 +73,8 @@ export interface MusicStateType {
   curTime: number;
 
   duration: number;
+
+  loaded: boolean;
 }
 
 export interface MusicModelProps {
@@ -88,6 +90,7 @@ export interface MusicModelProps {
     setCurAlbum: Reducer<MusicStateType>;
     setCurTime: Reducer<MusicStateType>;
     setDuration: Reducer<MusicStateType>;
+    setLoaded: Reducer<MusicStateType>;
   };
   effects: {
     fetchMusicDetail: Effect;
@@ -1058,6 +1061,7 @@ const initialState: MusicStateType = {
   volume: 0.5,
   curTime: 0,
   duration: 0,
+  loaded: false,
 };
 
 const MusicModel: MusicModelProps = {
@@ -1118,6 +1122,12 @@ const MusicModel: MusicModelProps = {
         curTime: payload,
       } as MusicStateType;
     },
+    setLoaded: (state, {payload}) => {
+      return {
+        ...state,
+        loaded: payload,
+      } as MusicStateType;
+    }
   },
   effects: {
     *initFetch({ payload }, { call, put, select }) {
@@ -1160,14 +1170,32 @@ const MusicModel: MusicModelProps = {
       // yield call(load, curMusic.sourceUrl);
       const loaded = yield call(isLoaded);
       console.log('loaded: ', loaded);
+
       if (!loaded) return;
+
+
+      //new logic
+      const delay = (ms: number) =>
+        new Promise((resolve) => setTimeout(resolve, ms));
+      // let loadedFlag = false;
+      // while(loadedFlag) {
+      //   loadedFlag = yield call(isLoaded);
+      //   yield delay(300);
+      //   console.log('checkLoaded: ', loadedFlag);
+      // }
+      // yield put({
+      //   type: 'setLoaded',
+      //   payload: true
+      // })
+
+
       yield call(play);
       yield put({
         type: 'setPlayingState',
         payload: 'playing',
       });
-      const delay = (ms: number) =>
-        new Promise((resolve) => setTimeout(resolve, ms));
+      // const delay = (ms: number) =>
+      //   new Promise((resolve) => setTimeout(resolve, ms));
       while (true) {
         // playingState = yield select((state: any) => state.music.playingState);
         // console.log(playingState);
@@ -1178,7 +1206,7 @@ const MusicModel: MusicModelProps = {
           payload: curTime / 1000,
         });
         console.log(curTime / 1000);
-        yield call(delay, 1000);
+        yield call(delay, 500);
         playingState = yield select((state: any) => state.music.playingState);
         if (playingState !== 'playing') break;
         if (curTime / 1000 >= duration) {
@@ -1278,6 +1306,22 @@ const MusicModel: MusicModelProps = {
           type: 'setCurTime',
           payload: 0,
         });
+        const loaded = select((state: any) => state.music.loaded);
+
+        const delay = (ms: number) =>
+        new Promise((resolve) => setTimeout(resolve, ms));
+        let loadedFlag = false;
+        while(loadedFlag) {
+          loadedFlag = yield call(isLoaded);
+          yield delay(300);
+          console.log('checkLoaded: ', loadedFlag);
+        }
+        yield put({
+          type: 'setLoaded',
+          payload: true
+        })
+        // console.log()
+
       } catch (e) {
         console.error(e);
       }
@@ -1289,23 +1333,18 @@ const MusicModel: MusicModelProps = {
       // });
       // yield call(load, musicDetail.sourceUrl);
     },
-    *loadAndPlay({ payload }, { put, select, call }) {
-      yield put({
-        type: 'stopSongs',
-      });
+    *loadAndPlay({ payload }, { put, select, call, take }) {
+      // yield put({
+      //   type: 'stopSongs',
+      // });
       yield put({
         type: 'loadSongs',
         payload,
       });
-      // const delay = (ms: number) => new Promise((resolve)=>setTimeout(resolve, ms));
-      // delay(1000);
-      // setTimeout(()=>{
-      //   put({
-      //     type: 'playSongs'
-      //   })
-      //   console.log('play')
-      // }, 1000)
-      // yield call(play);
+
+      // 最蛋疼的一个feature实现了！！！
+      yield take('loadSongs/@@end')
+
       yield put({
         type: 'playSongs',
       });
@@ -1344,7 +1383,7 @@ const MusicModel: MusicModelProps = {
         });
         nextCid = songs[(idx + 1) % songs.length].cid;
       } else if (loopState === 'randomLoop') {
-        const idx = Math.round(songs.length * Math.random());
+        const idx = Math.floor(songs.length * Math.random());
         nextCid = songs[idx % songs.length].cid;
       } else if (loopState === 'singleLoop') {
         nextCid = curMusic.cid;
@@ -1354,10 +1393,14 @@ const MusicModel: MusicModelProps = {
         nextCid = curMusic.cid;
       }
       console.log(nextCid);
+      // yield put({
+      //   type: 'loadSongs',
+      //   payload: nextCid,
+      // });
       yield put({
-        type: 'loadSongs',
+        type: 'loadAndPlay',
         payload: nextCid,
-      });
+      })
     },
   },
   subscriptions: {},

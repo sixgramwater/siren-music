@@ -66,6 +66,7 @@ export const getCurTime = () => {
 
 export const load = async (url: string) => {
   // if(loaded) return;
+  loaded = false;
   console.log('start load');
   try {
     buffer = (await getBuffer(url)) as AudioBuffer;
