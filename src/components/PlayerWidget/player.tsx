@@ -6,6 +6,7 @@ import { FaPlay, FaListUl, FaPause } from 'react-icons/fa';
 import cx from 'classnames';
 import { useAudio } from '@/utils/playAudio';
 import { musicDetailProps, albumType } from '@/models/music';
+import FlashText from '@/components/FlashText'
 
 export interface PlayerProps {}
 
@@ -62,9 +63,7 @@ const Player: React.FC<PlayerProps> = (props) => {
           <img src={curAlbum.coverUrl} className={styles.coverPic}></img>
         </div>
         <div className={styles.musicTitle}>
-          <div className={styles.overflowText}>
-            <span className={styles.content}>{curMusic.name}</span>
-          </div>
+          <FlashText text={curMusic.name}/>
         </div>
       </div>
       <div className={styles.control}>

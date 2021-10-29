@@ -185,11 +185,16 @@ export const playFrom = (from: number) => {
   sourceNode.buffer = buffer;
   gainNode = audioContext.createGain();
   gainNode.gain.value = volume;
-  sourceNode.connect(gainNode).connect(audioContext.destination);
-
+  analyser = audioContext.createAnalyser();
+    // gainNode.gain.value = volume;
+  sourceNode.connect(gainNode);
+  gainNode.connect(analyser);
+  analyser.connect(audioContext.destination);
+  // sourceNode.connect(gainNode).connect(audioContext.destination);
   pausedAt = from * 1000;
   startedAt = Date.now() - from * 1000;
   sourceNode.start(0, from);
+  visualize();
   paused = false;
   // if(pausedAt) {
 
