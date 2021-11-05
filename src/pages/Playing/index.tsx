@@ -63,7 +63,19 @@ const PageMusicPlay = () => {
       .padStart(2, '0')}`;
     return formatted;
   };
-  const getLoopModeIcon = () => {};
+  const getLoopModeIcon = () => {
+    switch (playingState) {
+      case 'allLoop':
+
+        break;
+      case 'randomLoop':
+
+        break;
+
+      default:
+        break;
+    }
+  };
 
   const handleSlideChange = (value: number) => {
     setSliderValue(value);
