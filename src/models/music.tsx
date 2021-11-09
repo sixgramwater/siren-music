@@ -1,4 +1,4 @@
-import { Reducer, Effect, Subscription, Action } from 'umi';
+import { Reducer, Effect, Subscription, Action, history } from 'umi';
 import {
   requestMusicDetail,
   load,
@@ -1397,6 +1397,7 @@ const MusicModel: MusicModelProps = {
       //   type: 'loadSongs',
       //   payload: nextCid,
       // });
+      history.push('/music/'+nextCid);
       yield put({
         type: 'loadAndPlay',
         payload: nextCid,

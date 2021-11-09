@@ -176,6 +176,20 @@ const AppModel: AppModelType = {
         type: 'setToastContent',
         payload
       })
+      // const showToast = yield select((state: any)=>state.app.showToast);
+      // if(!showToast) {
+      //   yield put({
+      //     type: 'toggleShowToast',
+      //     payload: true,
+      //   })
+      // }
+
+      // let timer = setTimeout(()=>{
+      //   put({
+      //     type: 'toggleShowToast',
+      //     payload: false,
+      //   })
+      // }, 3000)
       // const delay = (ms: number) => new Promise(resolve=>setTimeout(resolve, ms));
       // const callback = () => {
       //   put({

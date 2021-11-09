@@ -3,7 +3,8 @@ import styles from './index.less';
 import { useSelector, useDispatch } from 'umi';
 import { routeItem } from '../../models/index';
 import { useRoute } from '../../utils/useRoute';
-import cx from 'classnames'
+import cx from 'classnames';
+import { history } from 'umi';
 // import { useSelector } from 'umi'
 
 interface MenuItemProps {
@@ -12,6 +13,7 @@ interface MenuItemProps {
 }
 const MenuItem: React.FC<MenuItemProps> = ({route}) => {
   const dispatch = useDispatch();
+
   // const [{ },
   //   toggleRouteForward,
   //   toggleRouteBackward,
@@ -20,10 +22,15 @@ const MenuItem: React.FC<MenuItemProps> = ({route}) => {
   //   jumpToRoute(route.path)
   // }
   const handleClick = () => {
+    history.push(route.path);
     dispatch({
-      type: 'app/setRoute',
-      payload: route.path
+      type: 'app/toggleSiderOpen',
+      payload: false
     })
+    // dispatch({
+    //   type: 'app/setRoute',
+    //   payload: route.path
+    // })
   }
   return(
     <a className={styles.menuItem} onClick={handleClick}>

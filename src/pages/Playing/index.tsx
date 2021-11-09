@@ -12,6 +12,7 @@ import { AiFillBackward, AiFillForward } from 'react-icons/ai';
 import { IoPause, IoPlay } from 'react-icons/io5';
 import { FaRandom } from 'react-icons/fa';
 import { IoMdVolumeLow } from 'react-icons/io';
+import { history, useParams } from 'umi';
 
 const PageMusicPlay = () => {
   const showMusicPlay = useSelector((state: any) => state.app.showMusicPlay);
@@ -27,6 +28,8 @@ const PageMusicPlay = () => {
   const duration: number = useSelector((state: any) => state.music.duration);
   const [sliderValue, setSliderValue] = useState(0);
   const [volumeSliderValue, setVolumeSliderValue] = useState(curVolume);
+  const params: any = useParams();
+  const dispatch = useDispatch();
   // const playListOpen = useSelector((state: any) => state.app.playListOpen);
   useEffect(() => {
     // dispatch({
@@ -38,22 +41,28 @@ const PageMusicPlay = () => {
       payload: volumeSliderValue,
     });
   }, [volumeSliderValue]);
+
   useEffect(() => {
     setSliderValue(curTime);
   }, [curTime]);
-  const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch({
-      type: 'music/loadSongs',
-      payload: '953910',
-    });
-  }, []);
+    if(params.id !== curMusic.cid) {
+      dispatch({
+        type: 'music/loadSongs',
+        payload: params.id,
+      });
+    }
+  }, [params.id]);
+
   const handleClosePage = () => {
     dispatch({
       type: 'app/toggleShowMusicPlay',
       payload: false,
     });
+    history.goBack();
   };
+
   const timeFormat = (time: number) => {
     // let temp = time.toFixed(0);
     const minutes = Math.floor(time / 60);
@@ -63,6 +72,7 @@ const PageMusicPlay = () => {
       .padStart(2, '0')}`;
     return formatted;
   };
+
   const getLoopModeIcon = () => {
     switch (playingState) {
       case 'allLoop':
@@ -80,6 +90,7 @@ const PageMusicPlay = () => {
   const handleSlideChange = (value: number) => {
     setSliderValue(value);
   };
+
   const handleVolumeSliderChange = (value: number) => {
     setVolumeSliderValue(value);
     dispatch({
@@ -101,6 +112,7 @@ const PageMusicPlay = () => {
     //   type: 'app/togglePlayListOpen',
     //   payload: !playListOpen,
     // });
+    // history.goBack();
   }
 
   const handleTogglePlay = () => {
