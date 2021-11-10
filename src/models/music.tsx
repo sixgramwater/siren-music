@@ -21,6 +21,12 @@ export interface songType {
   artists: string[];
 }
 
+export interface songInAlbumType {
+  cid: string;
+  name: string;
+  artistes: string[];
+}
+
 export interface albumType {
   cid: string; // albumn cid
   coverUrl: string;
@@ -34,7 +40,8 @@ export interface albumDetailProps {
   coverDeUrl?: string;
   coverUrl: string;
   intro?: string;
-  songs: songType[];
+  name: string;
+  songs: songInAlbumType[];
 }
 
 export interface musicDetailProps {
@@ -1042,7 +1049,23 @@ const initialState: MusicStateType = {
       artistes: ['塞壬唱片-MSR'],
     },
   ],
-  curAlbum: null,
+  curAlbum: {
+    cid: "1036",
+    name: "Across the wind",
+    intro: "",
+    belong: "arknights",
+    coverUrl: "https://web.hycdn.cn/siren/pic/20210802/e4c5d899ce336fd6a866d45582c73aee.jpg",
+    coverDeUrl: "https://web.hycdn.cn/siren/pic/20210802/b963e0cc055c82530414593e9bdb1202.jpg",
+    songs: [
+      {
+        cid: "953910",
+        name: "Across the wind",
+        artistes: [
+            "塞壬唱片-MSR"
+        ]
+      }
+    ]
+},
   curMusic: {
     albumCid: '1036',
     artists: ['塞壬唱片-MSR'],
@@ -1139,7 +1162,7 @@ const MusicModel: MusicModelProps = {
     *fetchAlbumDetail({ payload }, { call, put, select }) {
       const data = yield call(requestAlbumDetail, payload);
       yield put({
-        type: 'music/setCurAlbum',
+        type: 'setCurAlbum',
         payload: data,
       });
     },
@@ -1271,6 +1294,12 @@ const MusicModel: MusicModelProps = {
 
     *loadSongs({ payload }, { call, put, select }) {
       try {
+        const curMusic = yield select((state: any)=>state.music.curMusic);
+        const loaded = yield select((state: any)=>state.music.loaded);
+        if(curMusic.cid === payload && loaded) {
+          console.log('the song has loaded, you cannot load the same song');
+          return;
+        }
         const playingState = select((state: any) => state.music.playingState);
         if (playingState === 'playing') {
           yield call(pause);
@@ -1306,7 +1335,7 @@ const MusicModel: MusicModelProps = {
           type: 'setCurTime',
           payload: 0,
         });
-        const loaded = select((state: any) => state.music.loaded);
+        // const loaded = select((state: any) => state.music.loaded);
 
         const delay = (ms: number) =>
         new Promise((resolve) => setTimeout(resolve, ms));
@@ -1397,7 +1426,8 @@ const MusicModel: MusicModelProps = {
       //   type: 'loadSongs',
       //   payload: nextCid,
       // });
-      history.push('/music/'+nextCid);
+      history.replace('/music/'+nextCid);
+
       yield put({
         type: 'loadAndPlay',
         payload: nextCid,

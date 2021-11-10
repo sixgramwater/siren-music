@@ -29,6 +29,7 @@ const PageMusicPlay = () => {
   const [sliderValue, setSliderValue] = useState(0);
   const [volumeSliderValue, setVolumeSliderValue] = useState(curVolume);
   const params: any = useParams();
+  // const initLoad = useState(true);
   const dispatch = useDispatch();
   // const playListOpen = useSelector((state: any) => state.app.playListOpen);
   useEffect(() => {
@@ -47,12 +48,16 @@ const PageMusicPlay = () => {
   }, [curTime]);
 
   useEffect(() => {
-    if(params.id !== curMusic.cid) {
-      dispatch({
-        type: 'music/loadSongs',
-        payload: params.id,
-      });
-    }
+    dispatch({
+      type: 'music/loadSongs',
+      payload: params.id,
+    });
+    // if(params.id !== curMusic.cid) {
+    //   dispatch({
+    //     type: 'music/loadSongs',
+    //     payload: params.id,
+    //   });
+    // }
   }, [params.id]);
 
   const handleClosePage = () => {
@@ -177,7 +182,7 @@ const PageMusicPlay = () => {
             </div>
             <div>/</div>
             <div className={styles.timeContent}>
-              {duration ? timeFormat(duration) : '00:00'}
+              {duration ? timeFormat(Math.ceil(duration)) : '00:00'}
             </div>
           </div>
           <div className={styles.progressBar}>

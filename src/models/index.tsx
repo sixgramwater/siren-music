@@ -40,7 +40,10 @@ export interface AppModelState {
   showMusicPlay?: boolean;
   showVolumePanel?: boolean;
   showToast?: boolean;
+  showAlbumDetail?: boolean;
+  showHeaderReturnButton?: boolean;
   toastContent: string;
+
 }
 
 export interface AppModelType {
@@ -57,6 +60,8 @@ export interface AppModelType {
     toggleShowMusicPlay?: Reducer;
     toggleShowVolumePanel: Reducer;
     toggleShowToast: Reducer;
+    toggleShowAlbumDetail: Reducer;
+    toggleShowHeaderReturnButton: Reducer;
     setToastContent: Reducer;
   };
   effects: {
@@ -79,6 +84,8 @@ const AppModel: AppModelType = {
     showMusicPlay: false,
     showVolumePanel: false,
     showToast: false,
+    showAlbumDetail: false,
+    showHeaderReturnButton: false,
     toastContent: '',
   },
   reducers: {
@@ -159,12 +166,24 @@ const AppModel: AppModelType = {
         showToast: payload
       }
     },
+    toggleShowAlbumDetail: (state: AppModelState, { payload }): AppModelState => {
+      return {
+        ...state,
+        showAlbumDetail: payload
+      }
+    },
     setToastContent: (state: AppModelState, { payload }): AppModelState => {
       return {
         ...state,
         toastContent: payload,
       }
-    }
+    },
+    toggleShowHeaderReturnButton: (state: AppModelState, { payload }): AppModelState => {
+      return {
+        ...state,
+        showHeaderReturnButton: payload
+      }
+    },
   },
   effects: {
     *requestToast({payload}, {select, call, put}) {

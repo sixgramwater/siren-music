@@ -10,16 +10,21 @@ export interface AlbumItemProps {
   cid: string;
   artists: string[];
   index: number;
+  onClick?: (cid: string)=>void;
 }
 
 const AlbumItem: React.FC<AlbumItemProps> = (props) => {
-  const { cover, name, cid, artists, index } = props;
+  const { cover, name, cid, artists, index, onClick } = props;
+  const handleItemClick = () => {
+    onClick && onClick(cid);
+  }
   return (
     <div
       className={styles.albumItem}
       style={{
         animationDelay: index * 0.1 + 's',
       }}
+      onClick={handleItemClick}
     >
       <div className={styles.cover}>
         {/* <LazyLoad height={75} once> */}
