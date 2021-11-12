@@ -11,14 +11,20 @@ import cx from 'classnames';
 const Header = () => {
   const [input, setInput] = useState('');
   const siderOpen = useSelector((state: any) => state.app.siderOpen);
-  const showHeaderReturnButton = useSelector((state:any) => state.app.showHeaderReturnButton);
+  const showHeaderReturnButton = useSelector(
+    (state: any) => state.app.showHeaderReturnButton,
+  );
   const dispatch = useDispatch();
   const handleClickReturnButton = () => {
     dispatch({
       type: 'app/toggleShowAlbumDetail',
-      payload: false
-    })
-  }
+      payload: false,
+    });
+    dispatch({
+      type: 'app/toggleShowHeaderReturnButton',
+      payload: false,
+    });
+  };
   const toggleSider = () => {
     const payload = !siderOpen;
     console.log('togglesider');
@@ -32,16 +38,16 @@ const Header = () => {
   };
 
   const returnButtonClass = cx(styles.returnButton, {
-    [styles.show]: showHeaderReturnButton
-  })
+    [styles.show]: showHeaderReturnButton,
+  });
 
   const searchBarClass = cx({
-    [styles.hide]: showHeaderReturnButton
-  })
+    [styles.hide]: showHeaderReturnButton,
+  });
 
   return (
     <header className={styles.header}>
-      <Searchbar onChange={handleInputChange} className={searchBarClass}/>
+      <Searchbar onChange={handleInputChange} className={searchBarClass} />
       <div className={styles.buttonNav} onClick={toggleSider}>
         <a className={styles.iconNav}>
           <span className={styles.bar}></span>
@@ -51,7 +57,10 @@ const Header = () => {
       </div>
       <SearchResult />
       <Sider />
-      <ReturnButton className={returnButtonClass} onClick={handleClickReturnButton}/>
+      <ReturnButton
+        className={returnButtonClass}
+        onClick={handleClickReturnButton}
+      />
     </header>
   );
 };

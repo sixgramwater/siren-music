@@ -31,9 +31,7 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
       payload: false,
     });
   };
-  const seachInputClass = cx(styles.searchInput, {
-    className
-  })
+  const seachInputClass = cx(styles.searchInput, className);
   return (
     <div className={seachInputClass} style={style}>
       <div className={styles.input}>

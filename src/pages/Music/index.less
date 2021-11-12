@@ -28,7 +28,6 @@
   }
 }
 
-
 .albumDetail {
   position: absolute;
   top: 0;
@@ -54,6 +53,10 @@
     margin: 0 16px 25px;
     height: 230px;
     flex-shrink: 0;
+    opacity: 1;
+    overflow: hidden;
+    // transform: scaleY(1);
+    // transition: transform 500ms ease;
     .coverImg {
       max-width: 100%;
       max-height: 100%;
@@ -80,16 +83,74 @@
     }
 
     .revealButton {
-
     }
   }
-
+  .wave {
+    height: 22px;
+    flex-shrink: 0;
+    margin-bottom: 12.8px;
+  }
   .intro {
     color: #c9cdd0;
     flex-shrink: 0;
+    position: relative;
+    .scroll {
+      min-height: 25px;
+      max-height: calc(100vh - 512px);
+      padding: 0 16px;
+      overflow-y: auto;
+      font-size: 12px;
+      .introWrapper {
+        height: 25px;
+        padding-right: 19.2px;
+        overflow: hidden;
+        // &.showAll {
+        //   height: 64px;
+        // }
+        .introInner {
+          white-space: pre-line;
+          line-height: 2;
+          p {
+            margin: 0;
+            transition: margin-top ease 0.7s;
+          }
+        }
+      }
+    }
+    .arrow {
+      position: absolute;
+      right: 16px;
+      bottom: 5.1px;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      height: 16px;
+      width: 16px;
+      opacity: 0;
+      transform: rotate(0);
+      transform-origin: center;
+      transition: transform 0.7s ease;
+      pointer-events: none;
+
+      &.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      i {
+        font-size: 12px;
+        width: 15px;
+        height: 100%;
+      }
+      // display: flex;
+    }
   }
 
   .songList {
     flex: 1 1;
+    .listItem {
+      height: 38px;
+      margin: 19px 38px 19px 0;
+      color: #e2e4e8;
+    }
   }
 }

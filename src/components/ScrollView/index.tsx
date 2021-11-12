@@ -8,18 +8,20 @@ interface ScrollViewProps {
 
 const ScrollView: React.FC<ScrollViewProps> = (props) => {
   const { children } = props;
+  const handleScroll = () => {};
   const wrapperStyle: React.CSSProperties = {
     WebkitMask:
       'linear-gradient(transparent, rgb(255, 255, 255) 10%, rgb(255, 255, 255) 90%, transparent 100%) center top',
   };
   return (
     <Scrollbar
+      onScroll={handleScroll}
       style={{
         width: '100%',
         height: '100%',
       }}
       trackXProps={{
-        renderer: (props)=>{
+        renderer: (props) => {
           const { elementRef, ...restProps } = props;
           return (
             <div
@@ -28,7 +30,7 @@ const ScrollView: React.FC<ScrollViewProps> = (props) => {
               style={{ visibility: 'hidden' }}
             ></div>
           );
-        }
+        },
       }}
       trackYProps={{
         renderer: (props) => {
