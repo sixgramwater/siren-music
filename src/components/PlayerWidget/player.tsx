@@ -6,7 +6,8 @@ import { FaPlay, FaListUl, FaPause } from 'react-icons/fa';
 import cx from 'classnames';
 import { useAudio } from '@/utils/playAudio';
 import { musicDetailProps, albumType } from '@/models/music';
-import FlashText from '@/components/FlashText'
+import FlashText from '@/components/FlashText';
+import { history } from 'umi'
 
 export interface PlayerProps {}
 
@@ -38,6 +39,7 @@ const Player: React.FC<PlayerProps> = (props) => {
       type: 'app/toggleShowMusicPlay',
       payload: true,
     });
+    history.push(`/music/${curMusic.cid}`)
   };
   const listIconActiveClass = cx(styles.iconWrapper, {
     [styles.active]: playListOpen,

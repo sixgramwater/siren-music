@@ -1,4 +1,4 @@
-import { Reducer, Effect, Subscription, Action } from 'umi';
+import { Reducer, Effect, Subscription, Action, history } from 'umi';
 import {
   requestMusicDetail,
   load,
@@ -21,6 +21,12 @@ export interface songType {
   artists: string[];
 }
 
+export interface songInAlbumType {
+  cid: string;
+  name: string;
+  artistes: string[];
+}
+
 export interface albumType {
   cid: string; // albumn cid
   coverUrl: string;
@@ -34,7 +40,8 @@ export interface albumDetailProps {
   coverDeUrl?: string;
   coverUrl: string;
   intro?: string;
-  songs: songType[];
+  name: string;
+  songs: songInAlbumType[];
 }
 
 export interface musicDetailProps {
@@ -1042,7 +1049,42 @@ const initialState: MusicStateType = {
       artistes: ['塞壬唱片-MSR'],
     },
   ],
-  curAlbum: null,
+
+  curAlbum: {
+    cid: '9391',
+    name: 'Radiant',
+    intro:
+      '我准备好全速前进，\n在日出前尘埃落定。\n我读出了迹象，也唤来正义，\n《Radiant》，如光如电，照亮阴影。',
+    belong: 'arknights',
+    coverUrl:
+      'https://web.hycdn.cn/siren/pic/20211101/733831c7d034b83dc78f783f8748cc65.jpg',
+    coverDeUrl:
+      'https://web.hycdn.cn/siren/pic/20211101/733831c7d034b83dc78f783f8748cc65.jpg',
+    songs: [
+      {
+        cid: '048738',
+        name: 'Radiant',
+        artistes: ['塞壬唱片-MSR'],
+      },
+    ],
+  },
+  // curAlbum: {
+  //   cid: "1036",
+  //   name: "Across the wind",
+  //   intro: "",
+  //   belong: "arknights",
+  //   coverUrl: "https://web.hycdn.cn/siren/pic/20210802/e4c5d899ce336fd6a866d45582c73aee.jpg",
+  //   coverDeUrl: "https://web.hycdn.cn/siren/pic/20210802/b963e0cc055c82530414593e9bdb1202.jpg",
+  //   songs: [
+  //     {
+  //       cid: "953910",
+  //       name: "Across the wind",
+  //       artistes: [
+  //           "塞壬唱片-MSR"
+  //       ]
+  //     }
+  //   ]
+  // },
   curMusic: {
     albumCid: '1036',
     artists: ['塞壬唱片-MSR'],
@@ -1122,12 +1164,12 @@ const MusicModel: MusicModelProps = {
         curTime: payload,
       } as MusicStateType;
     },
-    setLoaded: (state, {payload}) => {
+    setLoaded: (state, { payload }) => {
       return {
         ...state,
         loaded: payload,
       } as MusicStateType;
-    }
+    },
   },
   effects: {
     *initFetch({ payload }, { call, put, select }) {
@@ -1139,7 +1181,7 @@ const MusicModel: MusicModelProps = {
     *fetchAlbumDetail({ payload }, { call, put, select }) {
       const data = yield call(requestAlbumDetail, payload);
       yield put({
-        type: 'music/setCurAlbum',
+        type: 'setCurAlbum',
         payload: data,
       });
     },
@@ -1173,7 +1215,6 @@ const MusicModel: MusicModelProps = {
 
       if (!loaded) return;
 
-
       //new logic
       const delay = (ms: number) =>
         new Promise((resolve) => setTimeout(resolve, ms));
@@ -1187,7 +1228,6 @@ const MusicModel: MusicModelProps = {
       //   type: 'setLoaded',
       //   payload: true
       // })
-
 
       yield call(play);
       yield put({
@@ -1271,6 +1311,12 @@ const MusicModel: MusicModelProps = {
 
     *loadSongs({ payload }, { call, put, select }) {
       try {
+        const curMusic = yield select((state: any) => state.music.curMusic);
+        const loaded = yield select((state: any) => state.music.loaded);
+        if (curMusic.cid === payload && loaded) {
+          console.log('the song has loaded, you cannot load the same song');
+          return;
+        }
         const playingState = select((state: any) => state.music.playingState);
         if (playingState === 'playing') {
           yield call(pause);
@@ -1306,22 +1352,21 @@ const MusicModel: MusicModelProps = {
           type: 'setCurTime',
           payload: 0,
         });
-        const loaded = select((state: any) => state.music.loaded);
+        // const loaded = select((state: any) => state.music.loaded);
 
         const delay = (ms: number) =>
-        new Promise((resolve) => setTimeout(resolve, ms));
+          new Promise((resolve) => setTimeout(resolve, ms));
         let loadedFlag = false;
-        while(loadedFlag) {
+        while (loadedFlag) {
           loadedFlag = yield call(isLoaded);
           yield delay(300);
           console.log('checkLoaded: ', loadedFlag);
         }
         yield put({
           type: 'setLoaded',
-          payload: true
-        })
+          payload: true,
+        });
         // console.log()
-
       } catch (e) {
         console.error(e);
       }
@@ -1343,7 +1388,7 @@ const MusicModel: MusicModelProps = {
       });
 
       // 最蛋疼的一个feature实现了！！！
-      yield take('loadSongs/@@end')
+      yield take('loadSongs/@@end');
 
       yield put({
         type: 'playSongs',
@@ -1397,10 +1442,12 @@ const MusicModel: MusicModelProps = {
       //   type: 'loadSongs',
       //   payload: nextCid,
       // });
+      history.replace('/music/' + nextCid);
+
       yield put({
         type: 'loadAndPlay',
         payload: nextCid,
-      })
+      });
     },
   },
   subscriptions: {},

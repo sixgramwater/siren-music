@@ -9,19 +9,22 @@ const Toast = () => {
   const dispatch = useDispatch();
   const timeoutRef = useRef() as React.MutableRefObject<any>;
   useEffect(()=>{
-    dispatch({
-      type: 'app/toggleShowToast',
-      payload: true
-    });
-    if(timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    timeoutRef.current = setTimeout(()=>{
+    if(toastContent !== '') {
       dispatch({
         type: 'app/toggleShowToast',
-        payload: false
-      })
-    }, 2500);
+        payload: true
+      });
+      if(timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = setTimeout(()=>{
+        dispatch({
+          type: 'app/toggleShowToast',
+          payload: false
+        })
+      }, 2500);
+    }
+
     // () => clearTimeout(timeoutRef.current)
   }, [toastContent])
 

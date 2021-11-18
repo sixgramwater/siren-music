@@ -7,7 +7,7 @@ import React, { CSSProperties, useState, useEffect } from 'react';
 import { isMobile2 } from '../utils/utils';
 import { useSwipe } from '../utils/useSwipe';
 import { useAudio } from '../utils/playAudio';
-import PageMusic from './Music';
+import PageMusic from './music';
 import PageMusicPlay from './Playing';
 
 interface PageProps {
@@ -98,8 +98,9 @@ export default function IndexPage() {
       {/* <h1 className={styles.title}>Page index</h1> */}
       {/* <About visible={page === 0} key={0} />
       <Music visible={page === 1} key={1} /> */}
-      <PageMusic />
-      <PageMusicPlay />
+      <h1>Siren Music</h1>
+      {/* <PageMusic />
+      <PageMusicPlay /> */}
     </div>
   );
 }

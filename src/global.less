@@ -1,0 +1,296 @@
+/* body {
+
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: #09090b;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  background-color: #09090b;
+  font-family: -apple-system,BlinkMacSystemFont,"Microsoft YaHei","Segoe UI","Roboto","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
+} */
+
+@font-face {
+  font-family: 'Geometos';
+  src: url('../public/static/Geometos\ 400.ttf');
+}
+
+@font-face {
+  font-family: 'Source';
+  src: url('../public/static/SourceHanSerifCN-Heavy.woff');
+}
+
+@font-face {
+  font-family: 'Bender';
+  src: url('../public/static/Bender.woff');
+}
+
+@font-face {
+  font-family: 'Sans-regular';
+  src: url('../public/static/OpenSans-Regular.woff');
+}
+
+.main {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+/* 路由前进时的入场/离场动画 */
+.forward-enter {
+  &:extend(.main);
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.forward-enter-active {
+  &:extend(.main);
+  opacity: 1;
+  transform: translateX(0);
+  transition: all ease-in 500ms;
+}
+
+.forward-exit {
+  &:extend(.main);
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.forward-exit-active {
+  &:extend(.main);
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all 500ms ease-in;
+}
+
+/* 路由后退时的入场/离场动画 */
+.back-enter {
+  &:extend(.main);
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.back-enter-active {
+  &:extend(.main);
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 500ms;
+}
+
+.back-exit {
+  &:extend(.main);
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.back-exit-active {
+  &:extend(.main);
+  opacity: 0;
+  transform: translate(100%);
+  transition: all 500ms;
+}
+
+.pop-enter {
+  // opacity: 0;
+  opacity: 1;
+  transform: translateY(100%);
+}
+
+.pop-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 500ms ease-in-out;
+}
+
+.pop-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pop-exit-active {
+  // opacity: 0;
+  opacity: 1;
+  transform: translateY(100%);
+  transition: all 500ms ease-in-out;
+}
+
+/**
+ * 右侧淡入，右侧淡出
+ */
+.forward-from-right-enter {
+  z-index: 2;
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.forward-from-right-enter-active {
+  z-index: 2;
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 500ms;
+}
+
+.forward-from-right-exit {
+  z-index: 1;
+  opacity: 1;
+}
+
+.forward-from-right-exit-active {
+  z-index: 1;
+  opacity: 0.3;
+  transition: all 500ms;
+}
+
+.back-to-right-enter {
+  z-index: 1;
+  opacity: 0.3;
+}
+
+.back-to-right-enter-active {
+  z-index: 1;
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 500ms;
+}
+
+.back-to-right-exit {
+  z-index: 2;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.back-to-right-exit-active {
+  z-index: 2;
+  opacity: 0;
+  transform: translate(100%);
+  transition: all 500ms;
+}
+
+/**
+ * 下方淡入，下方淡出
+ */
+.forward-from-bottom-enter {
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.forward-from-bottom-enter-active {
+  z-index: 2;
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 500ms;
+}
+
+.forward-from-bottom-exit {
+  z-index: 1;
+  opacity: 1;
+}
+
+.forward-from-bottom-exit-active {
+  z-index: 1;
+  opacity: 0.3;
+  transition: all 500ms;
+}
+
+.back-to-bottom-enter {
+  z-index: 1;
+  opacity: 0.3;
+}
+
+.back-to-bottom-enter-active {
+  z-index: 1;
+  opacity: 1;
+  transition: all 500ms;
+}
+
+.back-to-bottom-exit {
+  z-index: 2;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.back-to-bottom-exit-active {
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: all 500ms;
+}
+
+.fade-from-right-enter {
+  opacity: 0;
+  transform: translateX(25%);
+}
+
+.fade-from-right-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: 500ms ease all;
+}
+
+.fade-from-right-exit {
+  opacity: 0;
+}
+.fade-from-right-exit-active {
+  opacity: 0;
+  transition: none;
+}
+// .fade-from-right-exit {
+//   opacity: 1;
+//   transform: translateX(0);
+// }
+
+// .fade-from-right-exit-active {
+//   opacity: 0;
+//   transition: all 500ms ease;
+//   // transform: translateX(25%);
+// }
+
+.fade-down-enter {
+  opacity: 0;
+  transform: translateY(25%);
+}
+
+.fade-down-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 500ms ease;
+}
+
+// .fade-down-exit {
+//   opacity: 1;
+//   transform: translateY(0);
+// }
+// .fade-down-exit-active {
+//   opacity: 0;
+//   transform: translateY(0);
+//   transition: all 500ms ease;
+// }
+
+.expand-from-center-enter {
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+.expand-from-center-enter-acive {
+  transform: scaleY(1);
+  opacity: 1;
+  transition: all 500ms ease;
+}
+
+.expand-from-center-exit {
+  opacity: 0;
+  transform: scaleY(1);
+}
+
+.expand-from-center-exit-active {
+  opacity: 0;
+  transform: scaleY(1);
+  transition: none;
+}

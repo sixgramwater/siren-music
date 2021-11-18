@@ -49,6 +49,7 @@ const Image: React.FC<ImageProps> = (props) => {
       src={src}
       className={className}
       style={style}
+      
       referrerPolicy="no-referrer"
     />
     // </Suspense>

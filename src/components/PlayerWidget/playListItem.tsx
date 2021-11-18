@@ -10,15 +10,26 @@ export interface ListItemProps {
   index: number;
   cid: string;
   onClick: () => void;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
-  const { active = false, title, artist, index, cid, onClick } = props;
-  const activeClass = cx(styles.listItem, {
+  const {
+    active = false,
+    title,
+    artist,
+    index,
+    cid,
+    onClick,
+    className,
+    style,
+  } = props;
+  const activeClass = cx(styles.listItem, className, {
     [styles.active]: active,
   });
   return (
-    <div className={activeClass} onClick={onClick}>
+    <div className={activeClass} onClick={onClick} style={style}>
       <div className={styles.badge}>{index}</div>
       <div className={styles.content}>
         <div className={styles.title}>

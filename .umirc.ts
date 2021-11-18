@@ -4,9 +4,29 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
-  // routes: [
-  //   { path: '/', component: '@/pages/index' },
-  // ],
+  routes: [
+    {
+      path: '/', component: '@/layouts/index',
+      routes: [
+        {
+          exact: true,
+          path: '/', component: '@/pages/index'
+        },
+        {
+          exact: true,
+          path: '/music', component: '@/pages/Music/index'
+        },
+        {
+          exact: true,
+          path: '/music/:id?', component: '@/pages/Playing/index'
+        },
+        {
+          exact: true,
+          path: '/playing', component: '@/pages/Playing/index'
+        }
+      ],
+    }
+  ],
   fastRefresh: {},
   dva: {},
   proxy: {

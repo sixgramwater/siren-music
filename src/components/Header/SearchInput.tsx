@@ -7,9 +7,11 @@ import { useSelector, useDispatch } from 'umi';
 export interface SearchInputProps {
   // value: string;
   onChange: (value: string) => void;
+  style?: React.CSSProperties;
+  className?: string;
 }
 const SearchInput: React.FC<SearchInputProps> = (props) => {
-  const { onChange } = props;
+  const { onChange, style, className } = props;
   const dispatch = useDispatch();
   const [isInput, setIsInput] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
@@ -29,8 +31,9 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
       payload: false,
     });
   };
+  const seachInputClass = cx(styles.searchInput, className);
   return (
-    <div className={styles.searchInput}>
+    <div className={seachInputClass} style={style}>
       <div className={styles.input}>
         <div className={styles.mask} onClick={handleClickMask}></div>
         <div className={styles.wrapper}>

@@ -236,6 +236,7 @@ export const requestMusicDetail = async (cid: string) => {
 export const requestAlbumDetail = async (cid: string) => {
   const res = await fetch(`/api/album/${cid}/detail`);
   const data = await res.json();
+  console.log(data.data);
   return data.data;
 };
 
